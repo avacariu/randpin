@@ -51,6 +51,8 @@ def cli(ctx, save, apikey):
 
     unread = [b for b in pb.posts.all() if b.toread]
     random_unread = random.choice(unread)
+
+    click.echo("Opening: {}".format(random_unread.url))
     ret = subprocess.run(["xdg-open", random_unread.url],
                          check=False)
 
