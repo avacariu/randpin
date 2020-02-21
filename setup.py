@@ -10,6 +10,7 @@ setup(
     author='Andrei Vacariu',
     author_email='andrei@vacariu.ca',
     description='A simple tool for opening a random unread bookmark from Pinboard',
+    url="https://github.com/avacariu/randpin",
 
     python_requires='>=3.5',
 
