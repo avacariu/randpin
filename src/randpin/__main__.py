@@ -9,18 +9,15 @@ import pinboard
 
 
 def get_config_path():
-    HOME = pathlib.Path(os.path.expandvars("$HOME"))
-    configdir = os.environ.get('XDG_CONFIG_HOME')
-    if not configdir:
-        configdir = HOME / '.config'
+    configdir = pathlib.Path(click.get_app_dir('randpin'))
+    configdir.mkdir(parents=True, exist_ok=True)
 
-    configpath = pathlib.Path(configdir) / 'randpin_apikey.txt'
-
-    return configpath
+    return configdir / 'apikey.txt'
 
 
 @click.command()
-@click.option('--save/--no-save', default=False)
+@click.option('--save/--no-save', default=False,
+              help="Save API key to the config file")
 @click.argument('apikey', nargs=-1)
 @click.pass_context
 def cli(ctx, save, apikey):
@@ -53,10 +50,9 @@ def cli(ctx, save, apikey):
     random_unread = random.choice(unread)
 
     click.echo("Opening: {}".format(random_unread.url))
-    ret = subprocess.run(["xdg-open", random_unread.url],
-                         check=False)
+    returncode = click.launch(random_unread.url)
 
-    ctx.exit(ret.returncode)
+    ctx.exit(returncode)
 
 
 def main():
