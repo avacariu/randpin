@@ -40,6 +40,9 @@ def cli(ctx, save, apikey):
         with configpath.open('r') as f:
             apikey = f.read().strip()
 
+        if not apikey:
+            raise click.ClickException("Wasn't able to load API key. Try saving again.")
+
     if save:
         with get_config_path().open('w') as f:
             print(apikey, file=f)
